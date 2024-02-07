@@ -42,4 +42,9 @@ enum class EliminationRoundState
     STOPPED,
 };
 
+class Robot
+{
+
+};
+
 #endif

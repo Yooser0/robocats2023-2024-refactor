@@ -1,6 +1,9 @@
 #include "include/utils.h"
 #include "include/structs.h"
+#include "include/funcs.h"
 
+Robot robot;
+Funcs funcs = Funcs(robot);
 Round whatRound;
 SeedingRoundState seedingState;
 EliminationRoundState elimState;
@@ -26,46 +29,43 @@ void loop()
         switch (seedingState)
         {
         case SeedingRoundState::TURNING_TOWARDS_START_CORNER_FROM_START:
-            // TODO
+            funcs.turningTowardsStartCornerFromStart();
             break;
         case SeedingRoundState::MOVING_TOWARDS_START_CORNER_FROM_START:
-            // TODO
+            funcs.movingTowardsStartCornerFromStart();
             break;
         case SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_START:
-            // TODO
+            funcs.turningTowardsButtonCornerFromStart();
             break;
         case SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER:
-            // TODO
+            funcs.movingTowardsbuttonCornerFromStartCorner();
             break;
         case SeedingRoundState::TURNING_TOWARDS_CENTER_FROM_BUTTON_CORNER:
-            // TODO
+            funcs.turningTowardsCenterFromButtonCorner();
             break;
         case SeedingRoundState::MOVING_TOWARDS_CENTER_FROM_BUTTON_CORNER:
-            // TODO
+            funcs.movingTowardsCenterFromButtonCorner();
             break;
         case SeedingRoundState::TURNING_TOWARDS_BUTTON_FROM_CENTER:
-            // TODO
+            funcs.turningTowardsButtonFromCenter();
             break;
         case SeedingRoundState::MOVING_TOWARDS_BUTTON_FROM_CENTER:
-            // TODO
+            funcs.movingTowardsButtonFromCenter();
             break;
         case SeedingRoundState::MOVING_TOWARDS_CENTER_FROM_BUTTON:
-            // TODO
+            funcs.movingTowardsCenterFromButton();
             break;
         case SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_CENTER:
-            // TODO
+            funcs.turningTowardsButtonCornerFromCenter();
             break;
         case SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_CENTER:
-            // TODO
+            funcs.movingTowardsButtonCornerFromCenter();
             break;
         case SeedingRoundState::TURNING_TOWARDS_START_CORNER_FROM_BUTTON_CORNER:
-            // TODO
+            funcs.turningTowardsStartCornerFromButtonCorner();
             break;
         case SeedingRoundState::MOVING_TOWARDS_START_CORNER_FROM_BUTTON_CORNER:
-            // TODO
-            break;
-        case SeedingRoundState::STOPPED:
-            delay(LONG_MAX);
+            funcs.movingTowardsStartCornerFromButtonCorner();
             break;
         }
         break;
@@ -73,40 +73,37 @@ void loop()
         switch (elimState)
         {
         case EliminationRoundState::POWER_ON:
-            // TODO
+            funcs.powerOn();
             break;
         case EliminationRoundState::MOVING_BACKWARDS_FROM_STATION:
-            // TODO
+            funcs.movingBackwardsFromStation();
             break;
         case EliminationRoundState::TURNING_AWAY_FROM_WALL:
-            // TODO
+            funcs.turningAwayFromWall();
             break;
         case EliminationRoundState::MOVING_AWAY_FROM_OBSTACLES:
-            // TODO
+            funcs.movingAwayFromObstacles();
             break;
         case EliminationRoundState::MOVING_TOWARDS_NEXT_STATION:
-            // TODO
+            funcs.movingTowardsNextStation();
             break;
         case EliminationRoundState::TURNING_TOWARDS_PERPENDICULAR_BUTTON_WALL:
-            // TODO
+            funcs.turningTowardsPerpendicularButtonWall();
             break;
         case EliminationRoundState::MOVING_TOWARDS_PERPENDICULAR_BUTTON_WALL:
-            // TODO
+            funcs.movingTowardsPerpendicularButtonWall();
             break;
         case EliminationRoundState::MOVING_AWAY_FROM_PERPENDICULAR_BUTTON_WALL:
-            // TODO
+            funcs.movingAwayFromPerpendicularButtonWall();
             break;
         case EliminationRoundState::TURNING_TOWARDS_CHARGER_FROM_CORNER:
-            // TODO
+            funcs.turningTowardsChargerFromCorner();
             break;
         case EliminationRoundState::MOVING_TOWARDS_CHARGER_FROM_CORNER:
-            // TODO
+            funcs.movingTowardsChargerFromCorner();
             break;
         case EliminationRoundState::CHARGING:
-            // TODO
-            break;
-        case EliminationRoundState::STOPPED:
-            delay(LONG_MAX);
+            funcs.charging();
             break;
         }
         break;
