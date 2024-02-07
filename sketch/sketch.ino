@@ -10,7 +10,7 @@ EliminationRoundState elimState;
 
 void setup()
 {
-    whatRound = utils::getRound();
+    whatRound = utils::getRound(robot);
 
     switch (whatRound) {
         case Round::SEEDING:
