@@ -21,9 +21,11 @@ void setup()
 
 void loop()
 {
-    switch (whatRound) {
+    switch (whatRound)
+    {
     case Round::SEEDING:
-        switch (seedingState) {
+        switch (seedingState)
+        {
         case SeedingRoundState::TURNING_TOWARDS_START_CORNER_FROM_START:
             // TODO
             break;
@@ -69,7 +71,8 @@ void loop()
         }
         break;
     case Round::ELIMINATION:
-        switch (elimState) {
+        switch (elimState)
+        {
         case EliminationRoundState::POWER_ON:
             // TODO
             break;

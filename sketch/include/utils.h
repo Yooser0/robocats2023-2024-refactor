@@ -3,7 +3,8 @@
 
 #include "structs.h"
 
-class utils {
+class utils
+{
 public:
     // At startup, get which round you are meant to be
     // running the program in.
