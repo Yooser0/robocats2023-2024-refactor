@@ -38,7 +38,7 @@ void loop()
             funcs.turningTowardsButtonCornerFromStart();
             break;
         case SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER:
-            funcs.movingTowardsbuttonCornerFromStartCorner();
+            funcs.movingTowardsButtonCornerFromStartCorner();
             break;
         case SeedingRoundState::TURNING_TOWARDS_CENTER_FROM_BUTTON_CORNER:
             funcs.turningTowardsCenterFromButtonCorner();

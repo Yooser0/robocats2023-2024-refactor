@@ -1,89 +1,124 @@
+#include <Arduino.h>
 #include "include/funcs.h"
 #include "include/structs.h"
+#include "include/consts.h"
 
 Funcs::Funcs(Robot& robot) : robot(robot) {}
 
 // Seeding round implementation
 
 SeedingRoundState Funcs::turningTowardsStartCornerFromStart() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    return SeedingRoundState::MOVING_TOWARDS_START_CORNER_FROM_START;
 }
 
 SeedingRoundState Funcs::movingTowardsStartCornerFromStart() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.moveForward(LEFT_START_CORNER.x - START.x, CORNER_TO_CENTER_VELOCITY);
+    return SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_START;
 }
 
 SeedingRoundState Funcs::turningTowardsButtonCornerFromStart() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.turnRight(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    return SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER;
 }
 
-SeedingRoundState Funcs::movingTowardsbuttonCornerFromStartCorner() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+SeedingRoundState Funcs::movingTowardsButtonCornerFromStartCorner() {
+    robot.moveForward(LEFT_BUTTON_CORNER.y - LEFT_START_CORNER.y, MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER_VELOCITY);
+    return SeedingRoundState::TURNING_TOWARDS_CENTER_FROM_BUTTON_CORNER;
 }
 
 SeedingRoundState Funcs::turningTowardsCenterFromButtonCorner() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.turnRight(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    return SeedingRoundState::MOVING_TOWARDS_CENTER_FROM_BUTTON_CORNER;
 }
 
 SeedingRoundState Funcs::movingTowardsCenterFromButtonCorner() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.moveForward(CENTER_NEAR_BUTTON.x - LEFT_BUTTON_CORNER.x, CORNER_TO_CENTER_VELOCITY);
+    return SeedingRoundState::TURNING_TOWARDS_BUTTON_FROM_CENTER;
 }
 
 SeedingRoundState Funcs::turningTowardsButtonFromCenter() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    return SeedingRoundState::MOVING_TOWARDS_BUTTON_FROM_CENTER;
 }
 
 SeedingRoundState Funcs::movingTowardsButtonFromCenter() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    bool hitTheWall = false;
+    robot.forward(MOVING_TOWARDS_BUTTON_FROM_CENTER_VELOCITY);
+
+    TimeDerivativeInSeconds derivativeOfAngularVelocity(robot.getAngularVelocityRef());
+    TimeIntegralInSeconds integralOfDistanceFromCenter(robot.getXPositionRef(), -CENTER_NEAR_BUTTON.x);
+    while (!hitTheWall)
+    {
+        robot.changeAngularVelocity(
+            -(CENTER_NEAR_BUTTON.x - robot.getXPosition()) * MOVING_TOWARDS_BUTTON_FROM_CENTER_PROPORTIONAL_PARAMETER +
+            -derivativeOfAngularVelocity.getDerivative() * MOVING_TOWARDS_BUTTON_FROM_CENTER_DERIVATIVE_PARAMETER +
+            -integralOfDistanceFromCenter.getIntegral() * MOVING_TOWARDS_BUTTON_FROM_CENTER_INTEGRAL_PARAMETER
+        );
+        integralOfDistanceFromCenter.updateIntegral();
+
+        hitTheWall = robot.isTouchingWall();
+    }
+    robot.brake();
+
+    return SeedingRoundState::MOVING_TOWARDS_CENTER_FROM_BUTTON;
 }
 
 SeedingRoundState Funcs::movingTowardsCenterFromButton() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.moveBackward((BUTTON.y - FRONT_OF_ROBOT.y) - CENTER_NEAR_BUTTON.y, MOVING_TOWARDS_CENTER_FROM_BUTTON_VELOCITY);
+    return SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_CENTER;
 }
 
 SeedingRoundState Funcs::turningTowardsButtonCornerFromCenter() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    return SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_CENTER;
 }
 
 SeedingRoundState Funcs::movingTowardsButtonCornerFromCenter() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.moveForward(CENTER_NEAR_BUTTON.x - LEFT_BUTTON_CORNER.x, MOVING_TOWARDS_BUTTON_CORNER_FROM_CENTER_VELOCITY);
+    return SeedingRoundState::TURNING_TOWARDS_START_CORNER_FROM_BUTTON_CORNER;
 }
 
 SeedingRoundState Funcs::turningTowardsStartCornerFromButtonCorner() {
-    // TODO
-    return SeedingRoundState::STOPPED;
+    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    return SeedingRoundState::MOVING_TOWARDS_START_CORNER_FROM_BUTTON_CORNER;
 }
 
 SeedingRoundState Funcs::movingTowardsStartCornerFromButtonCorner() {
-    // TODO
+    robot.moveForward(LEFT_BUTTON_CORNER.y - LEFT_START_CORNER.y, MOVING_TOWARDS_START_CORNER_FROM_BUTTON_CORNER_VELOCITY);
     return SeedingRoundState::STOPPED;
 }
 
 // Elimination round implementation
 
 EliminationRoundState Funcs::powerOn() {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    delay((int)(POWER_ON_WAIT_TIME * SECONDS_TO_MICROSECONDS));
+    return EliminationRoundState::MOVING_BACKWARDS_FROM_STATION;
 }
 
 EliminationRoundState Funcs::movingBackwardsFromStation() {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    bool coastIsClear = true;
+    bool farEnoughFromWall = false;
+    while (coastIsClear && !farEnoughFromWall)
+    {
+        robot.backward(MOVING_BACKWARDS_FROM_STATION_VELOCITY);
+        if (robot.getObstacleDistanceBehind() < MOVING_BACKWARDS_FROM_STATION_OBSTACLE_BEHIND_MIN_DISTANCE)
+            coastIsClear = false;
+        if (robot.getObstacleDistanceAhead() > MOVING_BACKWARDS_FROM_STATION_OBSTACLE_AHEAD_MAX_DISTANCE)
+            farEnoughFromWall = true;
+    }
+    robot.brake();
+
+    return EliminationRoundState::TURNING_AWAY_FROM_WALL;
 }
 
 EliminationRoundState Funcs::turningAwayFromWall() {
-    // TODO
+    float initialAngle = robot.getAngle();
+    while (abs(robot.getAngle() - initialAngle) < 90 * DEGREES_TO_RADIANS)
+    {
+        // TODO
+    }
+
     return EliminationRoundState::STOPPED;
 }
 

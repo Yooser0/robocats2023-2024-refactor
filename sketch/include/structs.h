@@ -42,9 +42,62 @@ enum class EliminationRoundState
     STOPPED,
 };
 
+class PositionInCentimeters
+{
+public:
+    float x, y;
+
+    PositionInCentimeters(float x, float y);
+};
+
 class Robot
 {
+    PositionInCentimeters positionInCentimeters;
+    float angle;
+    float angularVelocity;
+public:
+    Robot();
 
+    void turnLeft(unsigned int angleInDegrees, float angularVelocity);
+    void turnRight(unsigned int angleInDegrees, float angularVelocity);
+    void moveForward(float moveDistanceInCentimeters, float velocityInCentimeters);
+    void moveBackward(float moveDistanceInCentimeters, float velocityInCentimeters);
+    void forward(float velocityInCentimeters);
+    void backward(float velocityInCentimeters);
+    void brake();
+    void changeAngularVelocity(float angularVelocity);
+
+    float getObstacleDistanceAhead();
+    float getObstacleDistanceBehind();
+
+    bool isTouchingWall();
+    float getXPosition();
+    float& getXPositionRef();
+    float getAngle();
+    float& getAngularVelocityRef();
+};
+
+class TimeDerivativeInSeconds
+{
+    float& input;
+    float prevInput;
+    float prevTimeInSeconds;
+public:
+    TimeDerivativeInSeconds(float& input);
+    float getDerivative();
+};
+
+class TimeIntegralInSeconds
+{
+    float& input;
+    float inputBias;
+    float prevInput;
+    float prevTimeInSeconds;
+    float integral;
+public:
+    TimeIntegralInSeconds(float& input, float inputBias);
+    float getIntegral();
+    void updateIntegral();
 };
 
 #endif
