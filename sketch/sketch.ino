@@ -107,6 +107,9 @@ void loop()
             // TODO
             break;
         }
+        case EliminationRoundState::STOPPED:
+            delay(LONG_MAX);
+            break;
         break;
     case Round::NONE:
         while (!Serial);

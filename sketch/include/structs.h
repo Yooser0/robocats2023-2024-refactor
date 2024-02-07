@@ -39,6 +39,7 @@ enum class EliminationRoundState
     TURNING_TOWARDS_CHARGER_FROM_CORNER,
     MOVING_TOWARDS_CHARGER_FROM_CORNER,
     CHARGING,
+    STOPPED,
 };
 
 #endif
