@@ -1,4 +1,4 @@
-#include "include/funcs.h"
+#include "include/utils.h"
 #include "include/structs.h"
 
 Round whatRound;
@@ -8,7 +8,7 @@ EliminationRoundState elimState;
 
 void setup()
 {
-    whatRound = funcs::getRound();
+    whatRound = utils::getRound();
 
     switch (whatRound) {
         case Round::SEEDING:

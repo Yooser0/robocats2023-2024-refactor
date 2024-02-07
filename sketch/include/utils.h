@@ -1,9 +1,9 @@
-#ifndef FUNCS
-#define FUNCS
+#ifndef UTILS
+#define UTILS
 
 #include "structs.h"
 
-class funcs {
+class utils {
 public:
     // At startup, get which round you are meant to be
     // running the program in.
