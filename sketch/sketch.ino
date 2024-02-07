@@ -2,7 +2,6 @@
 #include "include/structs.h"
 
 Round whatRound;
-
 SeedingRoundState seedingState;
 EliminationRoundState elimState;
 
@@ -106,10 +105,10 @@ void loop()
         case EliminationRoundState::CHARGING:
             // TODO
             break;
-        }
         case EliminationRoundState::STOPPED:
             delay(LONG_MAX);
             break;
+        }
         break;
     case Round::NONE:
         while (!Serial);
