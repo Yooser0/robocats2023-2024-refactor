@@ -44,10 +44,18 @@ extern const float MOVING_BACKWARDS_FROM_STATION_VELOCITY = 0.0;
 // Distance constants
 extern const float MOVING_BACKWARDS_FROM_STATION_OBSTACLE_BEHIND_MIN_DISTANCE = 0.0;
 extern const float MOVING_BACKWARDS_FROM_STATION_OBSTACLE_AHEAD_MAX_DISTANCE = INFINITY;
+extern const float TURNING_AWAY_FROM_WALL_TURN_RADIUS = 0.0;
+extern const float MOVING_AWAY_FROM_OBSTACLES_MAX_DISTANCE = 0.0;
+
+// Angle constants
+extern const float TURNING_AWAY_FROM_WALL_ANGLE_OFFSET = 0.0;
+
+// Angular velocity constants
+extern const float TURNING_AWAY_FROM_WALL_ANGULAR_VELOCITY = 0.0;
 
 // Universal constants
 
 // Conversion constants
 extern const float MICRO_TO_UNIT = 0.000001;
 extern const unsigned int SECONDS_TO_MICROSECONDS = 1000;
-extern const float DEGREES_TO_RADIANS = M_PI / 180;
+extern const float RADIANS_TO_DEGREES = 180 / M_PI;

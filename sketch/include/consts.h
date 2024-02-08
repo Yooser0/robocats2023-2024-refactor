@@ -3,8 +3,10 @@
 
 #include "structs.h"
 
-// Note: All position measurements are recorded in centimeters, and
-// all time measurements are recorded in seconds.
+// Note: All position measurements are recorded in centimeters,
+// all time measurements are recorded in seconds, all angular
+// distance measurements are recorded in degrees, and all angular
+// velocity measurements are recorded in radians.
 
 // Seeding round constants
 
@@ -45,12 +47,20 @@ extern const float MOVING_BACKWARDS_FROM_STATION_VELOCITY;
 // Distance constants
 extern const float MOVING_BACKWARDS_FROM_STATION_OBSTACLE_BEHIND_MIN_DISTANCE;
 extern const float MOVING_BACKWARDS_FROM_STATION_OBSTACLE_AHEAD_MAX_DISTANCE;
+extern const float TURNING_AWAY_FROM_WALL_TURN_RADIUS;
+extern const float MOVING_AWAY_FROM_OBSTACLES_MAX_DISTANCE;
+
+// Angle constants
+extern const float TURNING_AWAY_FROM_WALL_ANGLE_OFFSET;
+
+// Angular velocity constants
+extern const float TURNING_AWAY_FROM_WALL_ANGULAR_VELOCITY;
 
 // Universal constants
 
 // Conversion constants
 extern const float MICRO_TO_UNIT;
 extern const unsigned int SECONDS_TO_MICROSECONDS;
-extern const float DEGREES_TO_RADIANS;
+extern const float RADIANS_TO_DEGREES;
 
 #endif

@@ -1,7 +1,9 @@
 #include <Arduino.h>
+#include <limits>
 #include "include/funcs.h"
 #include "include/structs.h"
 #include "include/consts.h"
+#include "include/utils.h"
 
 Funcs::Funcs(Robot& robot) : robot(robot) {}
 
@@ -43,11 +45,11 @@ SeedingRoundState Funcs::turningTowardsButtonFromCenter() {
 }
 
 SeedingRoundState Funcs::movingTowardsButtonFromCenter() {
-    bool hitTheWall = false;
     robot.forward(MOVING_TOWARDS_BUTTON_FROM_CENTER_VELOCITY);
-
+    
     TimeDerivativeInSeconds derivativeOfAngularVelocity(robot.getAngularVelocityRef());
     TimeIntegralInSeconds integralOfDistanceFromCenter(robot.getXPositionRef(), -CENTER_NEAR_BUTTON.x);
+    bool hitTheWall = false;
     while (!hitTheWall)
     {
         robot.changeAngularVelocity(
@@ -97,11 +99,12 @@ EliminationRoundState Funcs::powerOn() {
 }
 
 EliminationRoundState Funcs::movingBackwardsFromStation() {
+    robot.backward(MOVING_BACKWARDS_FROM_STATION_VELOCITY);
+
     bool coastIsClear = true;
     bool farEnoughFromWall = false;
     while (coastIsClear && !farEnoughFromWall)
     {
-        robot.backward(MOVING_BACKWARDS_FROM_STATION_VELOCITY);
         if (robot.getObstacleDistanceBehind() < MOVING_BACKWARDS_FROM_STATION_OBSTACLE_BEHIND_MIN_DISTANCE)
             coastIsClear = false;
         if (robot.getObstacleDistanceAhead() > MOVING_BACKWARDS_FROM_STATION_OBSTACLE_AHEAD_MAX_DISTANCE)
@@ -113,18 +116,36 @@ EliminationRoundState Funcs::movingBackwardsFromStation() {
 }
 
 EliminationRoundState Funcs::turningAwayFromWall() {
-    float initialAngle = robot.getAngle();
-    while (abs(robot.getAngle() - initialAngle) < 90 * DEGREES_TO_RADIANS)
+    robot.forwardCircle(
+        -(int)utils::getDirectionOfNearestWall(robot.getPreviousStation()) * TURNING_AWAY_FROM_WALL_ANGULAR_VELOCITY,
+        TURNING_AWAY_FROM_WALL_TURN_RADIUS
+    );
+
+    float initialAngle = robot.getAngleDegrees();
+    bool turnedEnough = false;
+    while (!turnedEnough)
+    {
+        if (robot.isMovingObjectApproaching())
+        {
+            robot.brake();
+            return EliminationRoundState::MOVING_AWAY_FROM_OBSTACLES;
+        }
+
+        float angleDiff = abs(robot.getAngleDegrees() - initialAngle);
+        turnedEnough = angleDiff >= 90;
+    }
+    robot.brake();
+
+    return EliminationRoundState::MOVING_TOWARDS_NEXT_STATION;
+}
+
+EliminationRoundState Funcs::movingAwayFromObstacles() {
+    while (robot.isObstacleInRange(MOVING_AWAY_FROM_OBSTACLES_MAX_DISTANCE))
     {
         // TODO
     }
 
-    return EliminationRoundState::STOPPED;
-}
-
-EliminationRoundState Funcs::movingAwayFromObstacles() {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    return EliminationRoundState::MOVING_TOWARDS_NEXT_STATION;
 }
 
 EliminationRoundState Funcs::movingTowardsNextStation() {

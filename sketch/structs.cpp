@@ -13,13 +13,13 @@ Robot::Robot() : positionInCentimeters(START)
     // TODO
 }
 
-void Robot::turnLeft(unsigned int angleInDegrees, float angularVelocity)
+void Robot::turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians)
 {
     // TODO
     return;
 }
 
-void Robot::turnRight(unsigned int angleInDegrees, float angularVelocity)
+void Robot::turnRight(unsigned int angleInDegrees, float angularVelocityInRadians)
 {
     // TODO
     return;
@@ -49,13 +49,19 @@ void Robot::backward(float velocityInCentimeters)
     return;
 }
 
+void Robot::forwardCircle(float angularVelocityInRadians, float radiusInCentimeters)
+{
+    // TODO
+    return;
+}
+
 void Robot::brake()
 {
     // TODO
     return;
 }
 
-void Robot::changeAngularVelocity(float angularVelocity)
+void Robot::changeAngularVelocity(float angularVelocityInRadians)
 {
     // TODO
     return;
@@ -66,10 +72,23 @@ float Robot::getObstacleDistanceAhead()
     // TOOD
     return 0.0;
 }
+
 float Robot::getObstacleDistanceBehind()
 {
     // TODO
     return 0.0;
+}
+
+bool Robot::isMovingObjectApproaching()
+{
+    // TODO
+    return false;
+}
+
+bool Robot::isObstacleInRange(float radiusInCentimeters)
+{
+    // TODO
+    return false;
 }
 
 bool Robot::isTouchingWall()
@@ -88,14 +107,19 @@ float& Robot::getXPositionRef()
     return positionInCentimeters.x;
 }
 
-float Robot::getAngle()
+ChargingStation Robot::getPreviousStation()
 {
-    return angle;
+    return previousStation;
+}
+
+float Robot::getAngleDegrees()
+{
+    return angleInRadians * RADIANS_TO_DEGREES;
 }
 
 float& Robot::getAngularVelocityRef()
 {
-    return angularVelocity;
+    return angularVelocityInRadians;
 }
 
 // Derivative implementation

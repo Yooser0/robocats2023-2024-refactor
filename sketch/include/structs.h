@@ -50,31 +50,49 @@ public:
     PositionInCentimeters(float x, float y);
 };
 
+enum class ChargingStation
+{
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    G,
+    H,
+};
+
 class Robot
 {
     PositionInCentimeters positionInCentimeters;
-    float angle;
-    float angularVelocity;
+    ChargingStation previousStation;
+    float angleInRadians;
+    float angularVelocityInRadians;
 public:
     Robot();
 
-    void turnLeft(unsigned int angleInDegrees, float angularVelocity);
-    void turnRight(unsigned int angleInDegrees, float angularVelocity);
+    void turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians);
+    void turnRight(unsigned int angleInDegrees, float angularVelocityInRadians);
     void moveForward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void moveBackward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void forward(float velocityInCentimeters);
     void backward(float velocityInCentimeters);
+    void forwardCircle(float angularVelocityInRadians, float radiusInCentimeters);
     void brake();
-    void changeAngularVelocity(float angularVelocity);
+    void changeAngularVelocity(float angularVelocityInRadians);
 
     float getObstacleDistanceAhead();
     float getObstacleDistanceBehind();
+    bool isMovingObjectApproaching();
+    bool isObstacleInRange(float radiusInCentimeters);
 
     bool isTouchingWall();
     float getXPosition();
     float& getXPositionRef();
-    float getAngle();
+    ChargingStation getPreviousStation();
+    float getAngleDegrees();
     float& getAngularVelocityRef();
+
 };
 
 class TimeDerivativeInSeconds
@@ -98,6 +116,15 @@ public:
     TimeIntegralInSeconds(float& input, float inputBias);
     float getIntegral();
     void updateIntegral();
+};
+
+// Positive if in the positive direction of angular
+// velocity, and negative if in the negative direction
+// of angular velocity.
+enum class Direction
+{
+    LEFT = 1,
+    RIGHT = -1,
 };
 
 #endif
