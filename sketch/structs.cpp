@@ -1,8 +1,11 @@
+#include <array>
 #include <Arduino.h>
 #include "include/structs.h"
 #include "include/consts.h"
 
 // Position implementation
+
+PositionInCentimeters::PositionInCentimeters() : x(0), y(0) {}
 
 PositionInCentimeters::PositionInCentimeters(float x, float y) : x(x), y(y) {}
 
@@ -55,6 +58,12 @@ void Robot::forwardCircle(float angularVelocityInRadians, float radiusInCentimet
     return;
 }
 
+void Robot::move(float directionInDegreesRelativeToRobot, float velocityInCentimeters)
+{
+    // TODO
+    return;
+}
+
 void Robot::brake()
 {
     // TODO
@@ -97,6 +106,11 @@ bool Robot::isTouchingWall()
     return false;
 }
 
+PositionInCentimeters Robot::getPosition()
+{
+    return positionInCentimeters;
+}
+
 float Robot::getXPosition()
 {
     return positionInCentimeters.x;
@@ -107,14 +121,39 @@ float& Robot::getXPositionRef()
     return positionInCentimeters.x;
 }
 
+std::array<PositionInCentimeters, NUM_OBSTACLE_DETECTORS>& Robot::getObstacles()
+{
+    return obstaclesRelativeToRobot;
+}
+
 ChargingStation Robot::getPreviousStation()
 {
     return previousStation;
 }
 
+ChargingStation Robot::getNextStation()
+{
+    switch (previousStation)
+    {
+        case ChargingStation::A: return ChargingStation::D;
+        case ChargingStation::D: return ChargingStation::H;
+        case ChargingStation::H: return ChargingStation::F;
+        case ChargingStation::F: return ChargingStation::B;
+        case ChargingStation::B: return ChargingStation::G;
+        case ChargingStation::G: return ChargingStation::E;
+        case ChargingStation::E: return ChargingStation::C;
+        case ChargingStation::C: return ChargingStation::A;
+    }
+}
+
 float Robot::getAngleDegrees()
 {
     return angleInRadians * RADIANS_TO_DEGREES;
+}
+
+float Robot::getAngleRadians()
+{
+    return angleInRadians;
 }
 
 float& Robot::getAngularVelocityRef()

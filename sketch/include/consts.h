@@ -1,7 +1,10 @@
 #ifndef CONSTS
 #define CONSTS
 
-#include "structs.h"
+// Robot information macros
+#define NUM_OBSTACLE_DETECTORS 1
+
+class PositionInCentimeters;
 
 // Note: All position measurements are recorded in centimeters,
 // all time measurements are recorded in seconds, all angular
@@ -43,18 +46,36 @@ extern const float POWER_ON_WAIT_TIME;
 
 // Velocity constants
 extern const float MOVING_BACKWARDS_FROM_STATION_VELOCITY;
+extern const float MOVING_AWAY_FROM_OBSTACLES_VELOCITY;
+extern const float MOVING_TOWARDS_NEXT_STATION_MAX_VELOCITY;
 
 // Distance constants
 extern const float MOVING_BACKWARDS_FROM_STATION_OBSTACLE_BEHIND_MIN_DISTANCE;
 extern const float MOVING_BACKWARDS_FROM_STATION_OBSTACLE_AHEAD_MAX_DISTANCE;
 extern const float TURNING_AWAY_FROM_WALL_TURN_RADIUS;
 extern const float MOVING_AWAY_FROM_OBSTACLES_MAX_DISTANCE;
+extern const float MOVING_TOWARDS_NEXT_STATION_AT_STATION_RANGE_RADIUS;
 
 // Angle constants
 extern const float TURNING_AWAY_FROM_WALL_ANGLE_OFFSET;
 
 // Angular velocity constants
 extern const float TURNING_AWAY_FROM_WALL_ANGULAR_VELOCITY;
+
+// Position constants
+extern const PositionInCentimeters STATION_A_POSITION;
+extern const PositionInCentimeters STATION_B_POSITION;
+extern const PositionInCentimeters STATION_C_POSITION;
+extern const PositionInCentimeters STATION_D_POSITION;
+extern const PositionInCentimeters STATION_E_POSITION;
+extern const PositionInCentimeters STATION_F_POSITION;
+extern const PositionInCentimeters STATION_G_POSITION;
+extern const PositionInCentimeters STATION_H_POSITION;
+
+// PID / complex movement constants
+extern const float MOVING_TOWARDS_NEXT_STATION_MOVEMENT_PARAMETER;
+extern const float MOVING_TOWARDS_NEXT_STATION_PROPORTIONAL_PARAMETER;
+extern const float MOVING_TOWARDS_NEXT_STATION_DERIVATIVE_PARAMETER;
 
 // Universal constants
 

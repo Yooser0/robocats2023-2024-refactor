@@ -1,6 +1,9 @@
 #ifndef STRUCTS
 #define STRUCTS
 
+#include <array>
+#include "consts.h"
+
 enum class Round
 {
     SEEDING,
@@ -47,6 +50,7 @@ class PositionInCentimeters
 public:
     float x, y;
 
+    PositionInCentimeters();
     PositionInCentimeters(float x, float y);
 };
 
@@ -65,6 +69,7 @@ enum class ChargingStation
 class Robot
 {
     PositionInCentimeters positionInCentimeters;
+    std::array<PositionInCentimeters, NUM_OBSTACLE_DETECTORS> obstaclesRelativeToRobot;
     ChargingStation previousStation;
     float angleInRadians;
     float angularVelocityInRadians;
@@ -78,6 +83,7 @@ public:
     void forward(float velocityInCentimeters);
     void backward(float velocityInCentimeters);
     void forwardCircle(float angularVelocityInRadians, float radiusInCentimeters);
+    void move(float directionInDegreesRelativeToRobot, float velocityInCentimeters);
     void brake();
     void changeAngularVelocity(float angularVelocityInRadians);
 
@@ -85,14 +91,17 @@ public:
     float getObstacleDistanceBehind();
     bool isMovingObjectApproaching();
     bool isObstacleInRange(float radiusInCentimeters);
-
     bool isTouchingWall();
+
+    PositionInCentimeters getPosition();
     float getXPosition();
     float& getXPositionRef();
+    std::array<PositionInCentimeters, NUM_OBSTACLE_DETECTORS>& getObstacles();
     ChargingStation getPreviousStation();
+    ChargingStation getNextStation();
     float getAngleDegrees();
+    float getAngleRadians();
     float& getAngularVelocityRef();
-
 };
 
 class TimeDerivativeInSeconds
