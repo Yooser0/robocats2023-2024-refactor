@@ -1,4 +1,5 @@
 #include <array>
+#include <cassert>
 #include <Arduino.h>
 #include "include/structs.h"
 #include "include/consts.h"
@@ -28,7 +29,7 @@ void Robot::turnRight(unsigned int angleInDegrees, float angularVelocityInRadian
     return;
 }
 
-void Robot::turn(unsigned int angleInDegrees, float angularVelocityInRadians)
+void Robot::turn(float angleInDegrees, float angularVelocityInRadians)
 {
     // TODO
     return;

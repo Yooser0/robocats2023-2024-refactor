@@ -78,7 +78,7 @@ public:
 
     void turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians);
     void turnRight(unsigned int angleInDegrees, float angularVelocityInRadians);
-    void turn(unsigned int angleInDegrees, float angularVelocityInRadians);
+    void turn(float angleInDegrees, float angularVelocityInRadians);
     void moveForward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void moveBackward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void forward(float velocityInCentimeters);
