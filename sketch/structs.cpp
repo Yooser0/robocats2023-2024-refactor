@@ -28,6 +28,12 @@ void Robot::turnRight(unsigned int angleInDegrees, float angularVelocityInRadian
     return;
 }
 
+void Robot::turn(unsigned int angleInDegrees, float angularVelocityInRadians)
+{
+    // TODO
+    return;
+}
+
 void Robot::moveForward(float moveDistanceInCentimeters, float velocityInCentimeters)
 {
     // TODO
@@ -58,7 +64,7 @@ void Robot::forwardCircle(float angularVelocityInRadians, float radiusInCentimet
     return;
 }
 
-void Robot::move(float directionInDegreesRelativeToRobot, float velocityInCentimeters)
+void Robot::go(float directionInDegreesRelativeToRobot, float velocityInCentimeters)
 {
     // TODO
     return;

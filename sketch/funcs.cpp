@@ -12,19 +12,19 @@ Funcs::Funcs(Robot& robot) : robot(robot) {}
 
 SeedingRoundState Funcs::turningTowardsStartCornerFromStart()
 {
-    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    robot.turnLeft(90, SEEDING_ROUND_TURN_SLOWLY_ANGULAR_VELOCITY);
     return SeedingRoundState::MOVING_TOWARDS_START_CORNER_FROM_START;
 }
 
 SeedingRoundState Funcs::movingTowardsStartCornerFromStart()
 {
     robot.moveForward(LEFT_START_CORNER.x - START.x, CORNER_TO_CENTER_VELOCITY);
-    return SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_START;
+    return SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER;
 }
 
-SeedingRoundState Funcs::turningTowardsButtonCornerFromStart()
+SeedingRoundState Funcs::turningTowardsButtonCornerFromStartCorner()
 {
-    robot.turnRight(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    robot.turnRight(90, SEEDING_ROUND_TURN_SLOWLY_ANGULAR_VELOCITY);
     return SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER;
 }
 
@@ -36,7 +36,7 @@ SeedingRoundState Funcs::movingTowardsButtonCornerFromStartCorner()
 
 SeedingRoundState Funcs::turningTowardsCenterFromButtonCorner()
 {
-    robot.turnRight(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    robot.turnRight(90, SEEDING_ROUND_TURN_SLOWLY_ANGULAR_VELOCITY);
     return SeedingRoundState::MOVING_TOWARDS_CENTER_FROM_BUTTON_CORNER;
 }
 
@@ -48,7 +48,7 @@ SeedingRoundState Funcs::movingTowardsCenterFromButtonCorner()
 
 SeedingRoundState Funcs::turningTowardsButtonFromCenter()
 {
-    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    robot.turnLeft(90, SEEDING_ROUND_TURN_SLOWLY_ANGULAR_VELOCITY);
     return SeedingRoundState::MOVING_TOWARDS_BUTTON_FROM_CENTER;
 }
 
@@ -83,7 +83,7 @@ SeedingRoundState Funcs::movingTowardsCenterFromButton()
 
 SeedingRoundState Funcs::turningTowardsButtonCornerFromCenter()
 {
-    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    robot.turnLeft(90, SEEDING_ROUND_TURN_SLOWLY_ANGULAR_VELOCITY);
     return SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_CENTER;
 }
 
@@ -95,7 +95,7 @@ SeedingRoundState Funcs::movingTowardsButtonCornerFromCenter()
 
 SeedingRoundState Funcs::turningTowardsStartCornerFromButtonCorner()
 {
-    robot.turnLeft(90, TURN_SLOWLY_ANGULAR_VELOCITY);
+    robot.turnLeft(90, SEEDING_ROUND_TURN_SLOWLY_ANGULAR_VELOCITY);
     return SeedingRoundState::MOVING_TOWARDS_START_CORNER_FROM_BUTTON_CORNER;
 }
 
@@ -109,7 +109,7 @@ SeedingRoundState Funcs::movingTowardsStartCornerFromButtonCorner()
 
 EliminationRoundState Funcs::powerOn()
 {
-    delay((int)(POWER_ON_WAIT_TIME * SECONDS_TO_MICROSECONDS));
+    delay((int)(POWER_ON_WAIT_TIME * UNIT_TO_MILLI));
     return EliminationRoundState::MOVING_BACKWARDS_FROM_STATION;
 }
 
@@ -159,7 +159,7 @@ EliminationRoundState Funcs::turningAwayFromWall()
 EliminationRoundState Funcs::movingAwayFromObstacles()
 {
     while (robot.isObstacleInRange(MOVING_AWAY_FROM_OBSTACLES_MAX_DISTANCE))
-        robot.move(utils::getAngleInDegreesAwayFromObstacles(robot.getObstacles()), MOVING_AWAY_FROM_OBSTACLES_VELOCITY);
+        robot.go(utils::getAngleInDegreesAwayFromObstacles(robot.getObstacles()), MOVING_AWAY_FROM_OBSTACLES_VELOCITY);
 
     return EliminationRoundState::MOVING_TOWARDS_NEXT_STATION;
 }
@@ -183,8 +183,9 @@ EliminationRoundState Funcs::movingTowardsNextStation()
             utils::distanceBetweenPositions(robot.getPosition(), nextStationPosition)
         ));
 
-        float nextStationAngleDiff = utils::angleOfPositionRadians(nextStationPosition, robot.getPosition())
-            - robot.getAngleRadians();
+        float nextStationAngleDiff = utils::getAngleDiffInRadians(
+            utils::angleOfPositionRadians(nextStationPosition, robot.getPosition()), robot.getAngleRadians()
+        );
         robot.changeAngularVelocity(
             nextStationAngleDiff * MOVING_TOWARDS_NEXT_STATION_PROPORTIONAL_PARAMETER +
             -derivativeOfAngularVelocity.getDerivative() * MOVING_TOWARDS_NEXT_STATION_DERIVATIVE_PARAMETER
@@ -207,36 +208,52 @@ float movingTowardsNextStationRateOfTravel(float distanceFromStation)
 
 EliminationRoundState Funcs::turningTowardsPerpendicularButtonWall()
 {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    float wallAngle = utils::angleInDegreesTowardsPerpendicularWall(robot.getNextStation());
+    float angleDiff = utils::getAngleDiffInDegrees(wallAngle, robot.getAngleDegrees());
+    robot.turn(angleDiff, TURNING_TOWARDS_PERPENDICULAR_BUTTON_WALL_ANGULAR_VELOCITY);
+    return EliminationRoundState::MOVING_TOWARDS_PERPENDICULAR_BUTTON_WALL;
 }
 
 EliminationRoundState Funcs::movingTowardsPerpendicularButtonWall()
 {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    robot.forward(MOVING_TOWARDS_PERPENDICULAR_BUTTON_WALL_VELOCITY);
+    while (!robot.isTouchingWall());
+
+    delay((int)(MOVING_TOWARDS_PERPENDICULAR_BUTTON_WALL_HIT_WALL_DELAY * UNIT_TO_MILLI));
+    robot.brake();
+
+    return EliminationRoundState::MOVING_AWAY_FROM_PERPENDICULAR_BUTTON_WALL;
 }
 
 EliminationRoundState Funcs::movingAwayFromPerpendicularButtonWall()
 {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    robot.backward(MOVING_AWAY_FROM_PERPENDICULAR_BUTTON_WALL_VELOCITY);
+    while (!utils::isInLineWithChargerOrGreater(robot.getNextStation(), robot.getPosition()));
+    robot.brake();
+
+    return EliminationRoundState::TURNING_TOWARDS_CHARGER_FROM_CORNER;
 }
 
 EliminationRoundState Funcs::turningTowardsChargerFromCorner()
 {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    robot.turn(
+        (int)utils::whichSideOfCorner(robot.getNextStation()) * 90,
+        TURNING_TOWARDS_CHARGER_FROM_CORNER_ANGULAR_VELOCITY
+    );
+    return EliminationRoundState::MOVING_TOWARDS_CHARGER_FROM_CORNER;
 }
 
 EliminationRoundState Funcs::movingTowardsChargerFromCorner()
 {
-    // TODO
-    return EliminationRoundState::STOPPED;
+    robot.forward(MOVING_TOWARDS_CHARGER_FROM_CORNER_VELOCITY);
+    while (!robot.isTouchingWall());
+    delay((int)(MOVING_TOWARDS_CHARGER_FROM_CORNER_HIT_WALL_DELAY * UNIT_TO_MILLI));
+
+    return EliminationRoundState::CHARGING;
 }
 
 EliminationRoundState Funcs::charging()
 {
-    // TODO
+    delay((int)(CHARGING_DELAY * UNIT_TO_MILLI));
     return EliminationRoundState::STOPPED;
 }

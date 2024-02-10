@@ -15,7 +15,7 @@ enum class SeedingRoundState
 {
     TURNING_TOWARDS_START_CORNER_FROM_START,
     MOVING_TOWARDS_START_CORNER_FROM_START,
-    TURNING_TOWARDS_BUTTON_CORNER_FROM_START,
+    TURNING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER,
     MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER,
     TURNING_TOWARDS_CENTER_FROM_BUTTON_CORNER,
     MOVING_TOWARDS_CENTER_FROM_BUTTON_CORNER,
@@ -78,12 +78,13 @@ public:
 
     void turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians);
     void turnRight(unsigned int angleInDegrees, float angularVelocityInRadians);
+    void turn(unsigned int angleInDegrees, float angularVelocityInRadians);
     void moveForward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void moveBackward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void forward(float velocityInCentimeters);
     void backward(float velocityInCentimeters);
     void forwardCircle(float angularVelocityInRadians, float radiusInCentimeters);
-    void move(float directionInDegreesRelativeToRobot, float velocityInCentimeters);
+    void go(float directionInDegreesRelativeToRobot, float velocityInCentimeters);
     void brake();
     void changeAngularVelocity(float angularVelocityInRadians);
 

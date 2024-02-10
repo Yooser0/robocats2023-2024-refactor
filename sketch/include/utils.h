@@ -29,6 +29,22 @@ public:
     // Computes the angle of the given position relative to the
     // given origin position.
     static float angleOfPositionRadians(PositionInCentimeters position, PositionInCentimeters origin);
+    // Returns the predetermined angle of the perpendicular wall
+    // of the given charging station.
+    static float angleInDegreesTowardsPerpendicularWall(ChargingStation station);
+    // You must use this function when finding the difference
+    // between one angle in radians and another.
+    static float getAngleDiffInDegrees(float lhsAngle, float rhsAngle);
+    // You must use this function when finding the difference
+    // between on angle in radians and another.
+    static float getAngleDiffInRadians(float lhsAngle, float rhsAngle);
+    // Computes if the robot is in line or past the given charging
+    // station after moving backward from the perpendicular wall or
+    // if it still needs to keep moving backward.
+    static bool isInLineWithChargerOrGreater(ChargingStation station, PositionInCentimeters position);
+    // Returns which side of its corner the given charging station
+    // is on.
+    static Direction whichSideOfCorner(ChargingStation station);
 };
 
 #endif
