@@ -2,6 +2,7 @@
 #define STRUCTS
 
 #include <array>
+#include <TB6612_ESP32.h>
 #include "consts.h"
 
 enum class Round
@@ -68,6 +69,9 @@ enum class ChargingStation
 
 class Robot
 {
+    Motor motorLeft;
+    Motor motorRight;
+
     PositionInCentimeters positionInCentimeters;
     std::array<PositionInCentimeters, NUM_OBSTACLE_DETECTORS> obstaclesRelativeToRobot;
     ChargingStation previousStation;
@@ -103,6 +107,9 @@ public:
     float getAngleDegrees();
     float getAngleRadians();
     float& getAngularVelocityRef();
+private:
+    void circle(float angularVelocityInRadians, float radiusInCentimeters);
+    void moveCircle(float angleInDegrees, float angularVelocityInRadians, float radiusInCentimeters);
 };
 
 class TimeDerivativeInSeconds

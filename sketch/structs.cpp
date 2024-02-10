@@ -1,8 +1,11 @@
 #include <array>
 #include <cassert>
 #include <Arduino.h>
+#include <TB6612_ESP32.h>
 #include "include/structs.h"
 #include "include/consts.h"
+#include "include/utils.h"
+#include "include/lib.h"
 
 // Position implementation
 
@@ -12,6 +15,8 @@ PositionInCentimeters::PositionInCentimeters(float x, float y) : x(x), y(y) {}
 
 // Robot implementation
 
+// Public implementations
+
 Robot::Robot() : positionInCentimeters(START)
 {
     // TODO
@@ -19,49 +24,62 @@ Robot::Robot() : positionInCentimeters(START)
 
 void Robot::turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians)
 {
-    // TODO
+    assert(angularVelocityInRadians > 0);
+    turn(angleInDegrees, angularVelocityInRadians);
     return;
 }
 
 void Robot::turnRight(unsigned int angleInDegrees, float angularVelocityInRadians)
 {
-    // TODO
+    assert(angularVelocityInRadians > 0);
+    turn(-(float)angleInDegrees, angularVelocityInRadians);
     return;
 }
 
 void Robot::turn(float angleInDegrees, float angularVelocityInRadians)
 {
-    // TODO
+    assert(angularVelocityInRadians > 0);
+    moveCircle(angleInDegrees, angularVelocityInRadians, DISTANCE_BETWEEN_WHEELS / 2.0);
     return;
 }
 
 void Robot::moveForward(float moveDistanceInCentimeters, float velocityInCentimeters)
 {
-    // TODO
+    forward(velocityInCentimeters);
+
+    PositionInCentimeters startPos = positionInCentimeters;
+    while (utils::distanceBetweenPositions(startPos, positionInCentimeters) <= moveDistanceInCentimeters);
+
     return;
 }
 
 void Robot::moveBackward(float moveDistanceInCentimeters, float velocityInCentimeters)
 {
-    // TODO
+    backward(velocityInCentimeters);
+
+    PositionInCentimeters startPos = positionInCentimeters;
+    while (utils::distanceBetweenPositions(startPos, positionInCentimeters) <= moveDistanceInCentimeters);
+
     return;
 }
 
 void Robot::forward(float velocityInCentimeters)
 {
-    // TODO
+    go(90, velocityInCentimeters);
     return;
 }
 
 void Robot::backward(float velocityInCentimeters)
 {
-    // TODO
+    go(-90, velocityInCentimeters);
     return;
 }
 
 void Robot::forwardCircle(float angularVelocityInRadians, float radiusInCentimeters)
 {
-    // TODO
+    assert(angularVelocityInRadians > 0);
+    assert(radiusInCentimeters > 0);
+    circle(angularVelocityInRadians, radiusInCentimeters);
     return;
 }
 
@@ -73,19 +91,20 @@ void Robot::go(float directionInDegreesRelativeToRobot, float velocityInCentimet
 
 void Robot::brake()
 {
-    // TODO
+    motorLeft.brake();
+    motorRight.brake();
     return;
 }
 
 void Robot::changeAngularVelocity(float angularVelocityInRadians)
 {
-    // TODO
+    // IMPLEMENTATION NEEDED
     return;
 }
 
 float Robot::getObstacleDistanceAhead()
 {
-    // TOOD
+    // TODO
     return 0.0;
 }
 
@@ -166,6 +185,35 @@ float Robot::getAngleRadians()
 float& Robot::getAngularVelocityRef()
 {
     return angularVelocityInRadians;
+}
+
+// Private implementations
+
+void Robot::circle(float angularVelocityInRadians, float radiusInCentimeters)
+{
+    // TODO
+    return;
+}
+void Robot::moveCircle(float angleInDegrees, float angularVelocityInRadians, float radiusInCentimeters)
+{
+    assert(angleInDegrees != 0);
+    assert(angularVelocityInRadians > 0);
+    assert(radiusInCentimeters > 0);
+    circle(lib::signum(angleInDegrees) * angularVelocityInRadians, radiusInCentimeters);
+
+    float startAngle = getAngleDegrees();
+    bool angleAccomplished = false;
+    while (!angleAccomplished)
+    {
+        float angleDiff = utils::getAngleDiffInDegrees(getAngleDegrees(), startAngle);
+        if (angleInDegrees > 0)
+            angleAccomplished = angleDiff >= angleInDegrees;
+        else
+            angleAccomplished = angleDiff <= angleInDegrees;
+    }
+    brake();
+
+    return;
 }
 
 // Derivative implementation

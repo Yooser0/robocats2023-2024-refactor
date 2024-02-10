@@ -91,3 +91,6 @@ extern const float MICRO_TO_UNIT = 0.000001;
 extern const unsigned int UNIT_TO_MICRO = 1000000;
 extern const unsigned int UNIT_TO_MILLI = 1000;
 extern const float RADIANS_TO_DEGREES = 180 / M_PI;
+
+// Robot info constants
+extern const float DISTANCE_BETWEEN_WHEELS = 0.0;

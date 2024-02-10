@@ -96,4 +96,7 @@ extern const unsigned int UNIT_TO_MICRO;
 extern const unsigned int UNIT_TO_MILLI;
 extern const float RADIANS_TO_DEGREES;
 
+// Robot info constants
+extern const float DISTANCE_BETWEEN_WHEELS;
+
 #endif
