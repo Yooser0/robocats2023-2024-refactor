@@ -106,15 +106,19 @@ public:
 
 class IRSensor
 {
-    private:
-        float distance_prev = 0.0;
-        float prev_time = 0.0;
+private:
+    int sensorPin; // Pin number for the IR sensor
+    float distance_prev; // Previous distance measurement
+    float prev_time; // Time of previous measurement
+    static const size_t ROLLING_AVERAGE_SIZE = 20; // Size of the rolling average window
+    float rolling_average[ROLLING_AVERAGE_SIZE]; // Array for storing past distance measurements
+    size_t arr_i; // Index for the current position in the rolling average array
 
-    public:
-        IRSensor() {} // Constructor definition, if needed for further initialization
-        float getDistance(); // Method declaration
-        
-        // Optional: setters and getters for distance_prev and prev_time if you choose to encapsulate them
+public:
+    IRSensor(int pin); // Constructor that sets the sensor pin
+    void setup(); // Setup method for initializing the sensor
+    float getDistance(); // Method to get the current distance measurement
+    // Additional methods as necessary...
 };
 
 class TimeDerivativeInSeconds
