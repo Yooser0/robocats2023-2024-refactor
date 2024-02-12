@@ -104,6 +104,19 @@ public:
     float& getAngularVelocityRef();
 };
 
+class IRSensor
+{
+    private:
+        float distance_prev = 0.0;
+        float prev_time = 0.0;
+
+    public:
+        IRSensor() {} // Constructor definition, if needed for further initialization
+        float getDistance(); // Method declaration
+        
+        // Optional: setters and getters for distance_prev and prev_time if you choose to encapsulate them
+};
+
 class TimeDerivativeInSeconds
 {
     float& input;
