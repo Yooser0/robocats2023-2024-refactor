@@ -2,6 +2,7 @@
 #define STRUCTS
 
 #include <array>
+#include <TB6612_ESP32.h>
 #include "consts.h"
 
 enum class Round
@@ -15,7 +16,7 @@ enum class SeedingRoundState
 {
     TURNING_TOWARDS_START_CORNER_FROM_START,
     MOVING_TOWARDS_START_CORNER_FROM_START,
-    TURNING_TOWARDS_BUTTON_CORNER_FROM_START,
+    TURNING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER,
     MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER,
     TURNING_TOWARDS_CENTER_FROM_BUTTON_CORNER,
     MOVING_TOWARDS_CENTER_FROM_BUTTON_CORNER,
@@ -68,6 +69,9 @@ enum class ChargingStation
 
 class Robot
 {
+    Motor motorLeft;
+    Motor motorRight;
+
     PositionInCentimeters positionInCentimeters;
     std::array<PositionInCentimeters, NUM_OBSTACLE_DETECTORS> obstaclesRelativeToRobot;
     ChargingStation previousStation;
@@ -78,12 +82,13 @@ public:
 
     void turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians);
     void turnRight(unsigned int angleInDegrees, float angularVelocityInRadians);
+    void turn(float angleInDegrees, float angularVelocityInRadians);
     void moveForward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void moveBackward(float moveDistanceInCentimeters, float velocityInCentimeters);
     void forward(float velocityInCentimeters);
     void backward(float velocityInCentimeters);
     void forwardCircle(float angularVelocityInRadians, float radiusInCentimeters);
-    void move(float directionInDegreesRelativeToRobot, float velocityInCentimeters);
+    void go(float directionInDegreesRelativeToRobot, float velocityInCentimeters);
     void brake();
     void changeAngularVelocity(float angularVelocityInRadians);
 
@@ -102,6 +107,9 @@ public:
     float getAngleDegrees();
     float getAngleRadians();
     float& getAngularVelocityRef();
+private:
+    void circle(float angularVelocityInRadians, float radiusInCentimeters);
+    void moveCircle(float angleInDegrees, float angularVelocityInRadians, float radiusInCentimeters);
 };
 
 class IRSensor

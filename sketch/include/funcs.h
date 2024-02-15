@@ -11,7 +11,7 @@ public:
 
     SeedingRoundState turningTowardsStartCornerFromStart();
     SeedingRoundState movingTowardsStartCornerFromStart();
-    SeedingRoundState turningTowardsButtonCornerFromStart();
+    SeedingRoundState turningTowardsButtonCornerFromStartCorner();
     SeedingRoundState movingTowardsButtonCornerFromStartCorner();
     SeedingRoundState turningTowardsCenterFromButtonCorner();
     SeedingRoundState movingTowardsCenterFromButtonCorner();

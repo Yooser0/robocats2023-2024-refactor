@@ -2,8 +2,10 @@
 #include "include/consts.h"
 #include "include/structs.h"
 
-// Note: All position measurements are recorded in centimeters, and
-// all time measurements are recorded in seconds.
+// Note: All position measurements are recorded in centimeters,
+// all time measurements are recorded in seconds, all angular
+// distance measurements are recorded in degrees, and all angular
+// velocity measurements are recorded in radians.
 
 // Seeding round constants
 
@@ -16,7 +18,7 @@ extern const float MOVING_TOWARDS_BUTTON_CORNER_FROM_CENTER_VELOCITY = 0.0;
 extern const float MOVING_TOWARDS_START_CORNER_FROM_BUTTON_CORNER_VELOCITY = 0.0;
 
 // Angular velocity constants
-extern const float TURN_SLOWLY_ANGULAR_VELOCITY = 0.0;
+extern const float SEEDING_ROUND_TURN_SLOWLY_ANGULAR_VELOCITY = 0.0;
 
 // PID constants
 extern const float MOVING_TOWARDS_BUTTON_FROM_CENTER_PROPORTIONAL_PARAMETER = 0.0;
@@ -37,11 +39,17 @@ extern const PositionInCentimeters FRONT_OF_ROBOT(0.0, 0.0);
 
 // Time constants
 extern const float POWER_ON_WAIT_TIME = 10.0;
+extern const float MOVING_TOWARDS_PERPENDICULAR_BUTTON_WALL_HIT_WALL_DELAY = 0.0;
+extern const float MOVING_TOWARDS_CHARGER_FROM_CORNER_HIT_WALL_DELAY = 0.0;
+extern const float CHARGING_DELAY = 10.0;
 
 // Velocity constants
 extern const float MOVING_BACKWARDS_FROM_STATION_VELOCITY = 0.0;
 extern const float MOVING_AWAY_FROM_OBSTACLES_VELOCITY = 0.0;
 extern const float MOVING_TOWARDS_NEXT_STATION_MAX_VELOCITY = 0.0;
+extern const float MOVING_TOWARDS_PERPENDICULAR_BUTTON_WALL_VELOCITY = 0.0;
+extern const float MOVING_AWAY_FROM_PERPENDICULAR_BUTTON_WALL_VELOCITY = 0.0;
+extern const float MOVING_TOWARDS_CHARGER_FROM_CORNER_VELOCITY = 0.0;
 
 // Distance constants
 extern const float MOVING_BACKWARDS_FROM_STATION_OBSTACLE_BEHIND_MIN_DISTANCE = 0.0;
@@ -52,9 +60,11 @@ extern const float MOVING_TOWARDS_NEXT_STATION_AT_STATION_RANGE_RADIUS = 0.0;
 
 // Angle constants
 extern const float TURNING_AWAY_FROM_WALL_ANGLE_OFFSET = 0.0;
+extern const float ELIMINATION_ROUND_STARTING_ANGLE = 0.0;
 
 // Angular velocity constants
 extern const float TURNING_AWAY_FROM_WALL_ANGULAR_VELOCITY = 0.0;
+extern const float TURNING_TOWARDS_CHARGER_FROM_CORNER_ANGULAR_VELOCITY = 0.0;
 
 // Position constants
 extern const PositionInCentimeters STATION_A_POSITION(0.0, 0.0);
@@ -71,9 +81,16 @@ extern const float MOVING_TOWARDS_NEXT_STATION_MOVEMENT_PARAMETER = 0.0;
 extern const float MOVING_TOWARDS_NEXT_STATION_PROPORTIONAL_PARAMETER = 0.0;
 extern const float MOVING_TOWARDS_NEXT_STATION_DERIVATIVE_PARAMETER = 0.0;
 
+// Angular velocity constants
+extern const float TURNING_TOWARDS_PERPENDICULAR_BUTTON_WALL_ANGULAR_VELOCITY = 0.0;
+
 // Universal constants
 
 // Conversion constants
 extern const float MICRO_TO_UNIT = 0.000001;
-extern const unsigned int SECONDS_TO_MICROSECONDS = 1000;
+extern const unsigned int UNIT_TO_MICRO = 1000000;
+extern const unsigned int UNIT_TO_MILLI = 1000;
 extern const float RADIANS_TO_DEGREES = 180 / M_PI;
+
+// Robot info constants
+extern const float DISTANCE_BETWEEN_WHEELS = 0.0;
