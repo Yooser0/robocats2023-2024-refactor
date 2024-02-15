@@ -112,6 +112,23 @@ private:
     void moveCircle(float angleInDegrees, float angularVelocityInRadians, float radiusInCentimeters);
 };
 
+class IRSensor
+{
+private:
+    int sensorPin; // Pin number for the IR sensor
+    float distance_prev; // Previous distance measurement
+    float prev_time; // Time of previous measurement
+    static const size_t ROLLING_AVERAGE_SIZE = 20; // Size of the rolling average window
+    float rolling_average[ROLLING_AVERAGE_SIZE]; // Array for storing past distance measurements
+    size_t arr_i; // Index for the current position in the rolling average array
+
+public:
+    IRSensor(int pin); // Constructor that sets the sensor pin
+    void setup(); // Setup method for initializing the sensor
+    float getDistance(); // Method to get the current distance measurement
+    // Additional methods as necessary...
+};
+
 class TimeDerivativeInSeconds
 {
     float& input;

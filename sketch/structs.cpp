@@ -15,9 +15,13 @@ PositionInCentimeters::PositionInCentimeters(float x, float y) : x(x), y(y) {}
 
 // Robot implementation
 
+
+Robot::Robot() : positionInCentimeters(START) //seeding round START for now.
+
 // Public implementations
 
 Robot::Robot() : positionInCentimeters(START)
+
 {
     // TODO
 }
@@ -187,6 +191,44 @@ float& Robot::getAngularVelocityRef()
     return angularVelocityInRadians;
 }
 
+
+// Sensor implementation
+
+IRSensor::IRSensor(int pin) : sensorPin(pin), distance_prev(0.0), prev_time(0.0), arr_i(0) {
+    for (size_t i = 0; i < ROLLING_AVERAGE_SIZE; ++i) {
+        rolling_average[i] = 0.0; // Initialize rolling average array
+    }
+}
+
+void IRSensor::setup() {
+    pinMode(sensorPin, INPUT); // Initialize the sensor pin as input
+}
+
+float IRSensor::getDistance() {
+    int sensorValue = analogRead(sensorPin);
+    if (sensorValue == 0) {
+        return -1; // Return -1 or some error code for invalid reading
+    }
+
+    float current_time = micros() / 1000000.0;
+    float distance = 28000.0 / sensorValue; // Example conversion formula, adjust as needed
+
+    // Calculate rolling average
+    rolling_average[arr_i] = distance;
+    arr_i = (arr_i + 1) % ROLLING_AVERAGE_SIZE;
+    float sum = 0.0;
+    for (size_t i = 0; i < ROLLING_AVERAGE_SIZE; ++i) {
+        sum += rolling_average[i];
+    }
+    float average_distance = sum / ROLLING_AVERAGE_SIZE;
+
+    // Update previous values for next calculation
+    distance_prev = distance;
+    prev_time = current_time;
+
+    return average_distance; // Or return raw distance if preferred
+}
+
 // Private implementations
 
 void Robot::circle(float angularVelocityInRadians, float radiusInCentimeters)
@@ -194,6 +236,7 @@ void Robot::circle(float angularVelocityInRadians, float radiusInCentimeters)
     // TODO
     return;
 }
+
 void Robot::moveCircle(float angleInDegrees, float angularVelocityInRadians, float radiusInCentimeters)
 {
     assert(angleInDegrees != 0);

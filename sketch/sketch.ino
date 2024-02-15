@@ -7,9 +7,12 @@ Funcs funcs = Funcs(robot);
 Round whatRound;
 SeedingRoundState seedingState;
 EliminationRoundState elimState;
+IRSensor irSensor(34); // Assuming pin 34 for the IR sensor
 
 void setup()
 {
+    Serial.begin(115200); // Initialize serial communication at 115200 baud rate
+    irSensor.setup(); // Initialize the IR sensor
     whatRound = utils::getRound(robot);
 
     switch (whatRound) {
@@ -23,6 +26,11 @@ void setup()
 
 void loop()
 {
+    float distance = irSensor.getDistance(); // Get the current distance
+    Serial.print("Distance: ");
+    Serial.println(distance, 2); // Print the distance with two decimal places
+
+    delay(100); // Wait for a second before the next read
     switch (whatRound)
     {
     case Round::SEEDING:
