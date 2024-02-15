@@ -19,10 +19,10 @@ SeedingRoundState Funcs::turningTowardsStartCornerFromStart()
 SeedingRoundState Funcs::movingTowardsStartCornerFromStart()
 {
     robot.moveForward(LEFT_START_CORNER.x - START.x, CORNER_TO_CENTER_VELOCITY);
-    return SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_START;
+    return SeedingRoundState::TURNING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER;
 }
 
-SeedingRoundState Funcs::turningTowardsButtonCornerFromStart()
+SeedingRoundState Funcs::turningTowardsButtonCornerFromStartCorner()
 {
     robot.turnRight(90, TURN_SLOWLY_ANGULAR_VELOCITY);
     return SeedingRoundState::MOVING_TOWARDS_BUTTON_CORNER_FROM_START_CORNER;
