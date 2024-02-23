@@ -1,8 +1,11 @@
 #include "include/utils.h"
 #include "include/structs.h"
 #include "include/funcs.h"
+#include "include/consts.h"
 
-Robot robot;
+MotorInfo motorLeft = { MOTOR_LEFT_IN1, MOTOR_LEFT_IN2, MOTOR_LEFT_PWM, STBY, FREQUENCY, RESOLUTION, MOTOR_LEFT_CHANNEL };
+MotorInfo motorRight = { MOTOR_RIGHT_IN1, MOTOR_RIGHT_IN2, MOTOR_RIGHT_PWM, STBY, FREQUENCY, RESOLUTION, MOTOR_RIGHT_CHANNEL };
+Robot robot(motorLeft, motorRight);
 Funcs funcs = Funcs(robot);
 Round whatRound;
 SeedingRoundState seedingState;

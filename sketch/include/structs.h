@@ -67,6 +67,17 @@ enum class ChargingStation
     H,
 };
 
+struct MotorInfo {
+    int in1Pin;
+    int in2Pin;
+    int pwmPin;
+    int offset;
+    int stbyPin;
+    int freq;
+    int resolution;
+    int channelPin;
+};
+
 class Robot
 {
     Motor motorLeft;
@@ -78,7 +89,7 @@ class Robot
     float angleInRadians;
     float angularVelocityInRadians;
 public:
-    Robot();
+    Robot(const MotorInfo& motorLeft, const MotorInfo& motorRight);
 
     void turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians);
     void turnRight(unsigned int angleInDegrees, float angularVelocityInRadians);

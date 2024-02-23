@@ -98,5 +98,22 @@ extern const float RADIANS_TO_DEGREES;
 
 // Robot info constants
 extern const float DISTANCE_BETWEEN_WHEELS;
+extern const int STBY;
+extern const int FREQUENCY;
+extern const int RESOLUTION;
+extern const int MOTOR_LEFT_IN1;
+extern const int MOTOR_LEFT_IN2;
+extern const int MOTOR_LEFT_PWM;
+extern const int MOTOR_LEFT_OFFSET;
+extern const int MOTOR_LEFT_FREQ;
+extern const int MOTOR_LEFT_RESOLUTION;
+extern const int MOTOR_LEFT_CHANNEL;
+extern const int MOTOR_RIGHT_IN1;
+extern const int MOTOR_RIGHT_IN2;
+extern const int MOTOR_RIGHT_PWM;
+extern const int MOTOR_RIGHT_OFFSET;
+extern const int MOTOR_RIGHT_FREQ;
+extern const int MOTOR_RIGHT_RESOLUTION;
+extern const int MOTOR_RIGHT_CHANNEL;
 
 #endif

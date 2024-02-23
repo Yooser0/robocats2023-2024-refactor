@@ -15,13 +15,11 @@ PositionInCentimeters::PositionInCentimeters(float x, float y) : x(x), y(y) {}
 
 // Robot implementation
 
-
-Robot::Robot() : positionInCentimeters(START) //seeding round START for now.
-
 // Public implementations
 
-Robot::Robot() : positionInCentimeters(START)
-
+Robot::Robot(const MotorInfo& motorLeft, const MotorInfo& motorRight) :
+motorLeft(Motor(motorLeft.in1Pin, motorLeft.in2Pin, motorLeft.pwmPin, motorLeft.offset, motorLeft.stbyPin, motorLeft.freq, motorLeft.resolution, motorLeft.channelPin)),
+motorRight(Motor(motorRight.in1Pin, motorRight.in2Pin, motorRight.pwmPin, motorRight.offset, motorRight.stbyPin, motorRight.freq, motorRight.resolution, motorRight.channelPin))
 {
     // TODO
 }
