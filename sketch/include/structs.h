@@ -12,6 +12,7 @@ enum class Round
     NONE,
 };
 
+// Check `SeedingRound` diagram for what each state is accomplishing
 enum class SeedingRoundState
 {
     TURNING_TOWARDS_START_CORNER_FROM_START,

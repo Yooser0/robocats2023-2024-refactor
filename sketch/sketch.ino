@@ -39,6 +39,7 @@ void loop()
     case Round::SEEDING:
         switch (seedingState)
         {
+        // Check `SeedingRound` diagram for what each state is accomplishing
         case SeedingRoundState::TURNING_TOWARDS_START_CORNER_FROM_START:
             seedingState = funcs.turningTowardsStartCornerFromStart();
             break;
