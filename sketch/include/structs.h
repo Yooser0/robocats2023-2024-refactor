@@ -83,13 +83,18 @@ class Robot
     Motor motorLeft;
     Motor motorRight;
 
+    IRSensor sensor1;
+
+    
+
     PositionInCentimeters positionInCentimeters;
     std::array<PositionInCentimeters, NUM_OBSTACLE_DETECTORS> obstaclesRelativeToRobot;
     ChargingStation previousStation;
     float angleInRadians;
     float angularVelocityInRadians;
+
 public:
-    Robot(const MotorInfo& motorLeft, const MotorInfo& motorRight);
+    Robot(const MotorInfo& motorLeft, const MotorInfo& motorRight, sensor1.setup());
 
     void turnLeft(unsigned int angleInDegrees, float angularVelocityInRadians);
     void turnRight(unsigned int angleInDegrees, float angularVelocityInRadians);

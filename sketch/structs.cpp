@@ -107,6 +107,9 @@ void Robot::changeAngularVelocity(float angularVelocityInRadians)
 float Robot::getObstacleDistanceAhead()
 {
     // TODO
+    //pass in sensorObject
+    //call distance function on   
+    Robot.sensor1().getDistance()
     return 0.0;
 }
 
